@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.webshop.app.ServiceInterface;
 
-/**
- *
- * @author pc
- */
+import com.webshop.app.Model.Customer;
+import java.util.List;
+import java.util.Optional;
+
 public interface CustomerServiceInterface {
+    
+    List<Customer> getAllCustomer();
+    
+    Optional<Customer> getCustomerById(Long customerId);
+        
+    void updateCustomer(Customer customer);
+            
+    void deleteCustomerById(Long customerId);
+    
+    void addCustomer(Customer customer);
     
 }
