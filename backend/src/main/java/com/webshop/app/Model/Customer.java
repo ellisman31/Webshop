@@ -1,6 +1,8 @@
 package com.webshop.app.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,19 +30,19 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="first_name")
+    @Column(name = "first_name")
     private String firstName;
     
-    @Column(name="last_name")
+    @Column(name = "last_name")
     private String lastName;
     
-    @Column(name="email_address")
+    @Column(name = "email_address")
     private String emailAddress;
     
-    @Column(name="password")
+    @Column(name = "password")
     private String password;
     
-    @Column(name="address")
+    @Column(name = "address")
     private String address;
     
     @ManyToMany
@@ -48,10 +50,10 @@ public class Customer {
             name = "purchase_product",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
+    @JsonBackReference(value="purchaseProduct")
     private Set<Product> purchaseProduct;
     
-    
-    
+    @JsonManagedReference(value = "orderHistory")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orderHistory;
     

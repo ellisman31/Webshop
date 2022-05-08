@@ -1,6 +1,8 @@
 package com.webshop.app.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -25,19 +27,20 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="name")
+    @Column(name = "name")
     private String productName;
     
-    @Column(name="quantity")
+    @Column(name = "quantity")
     private int productQuantity;
     
-    @Column(name="isAvailable")
+    @Column(name = "isAvailable")
     private boolean isAvailable;
     
-    @Column(name="isInStock")
+    @Column(name = "isInStock")
     private boolean isInStock;
     
     @ManyToMany(mappedBy = "purchaseProduct")
+    @JsonManagedReference(value = "purchaseProduct")
     private Set<Customer> purchaser;
     
 }

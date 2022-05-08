@@ -27,12 +27,12 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name="customer")
+    @Column(name = "customer")
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
     private Customer customer;
     
-    @Column(name="orderProcessStatus")
+    @Column(name = "orderProcessStatus")
     private OrderProcess orderProcessStatus;
     
     
