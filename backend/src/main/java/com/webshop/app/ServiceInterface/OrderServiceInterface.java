@@ -1,13 +1,19 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.webshop.app.ServiceInterface;
 
-/**
- *
- * @author pc
- */
+import com.webshop.app.Model.Order;
+import java.util.List;
+import java.util.Optional;
+
 public interface OrderServiceInterface {
+    
+    List<Order> getAllOrder();
+    
+    Optional<Order> getOrderById(Long orderId);
+    
+    void updateOrder(Order order);
+        
+    void deleteOrderById(Long orderId);
+    
+    void addOrder(Order order);
     
 }
