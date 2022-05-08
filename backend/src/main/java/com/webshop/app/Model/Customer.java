@@ -3,6 +3,7 @@ package com.webshop.app.Model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,12 +17,14 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(value= {"id"})
 @Table(name="customer", schema="public")
 public class Customer {
@@ -51,10 +54,13 @@ public class Customer {
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     @JsonBackReference(value="purchaseProduct")
-    private Set<Product> purchaseProduct;
+    private List<Product> purchaseProduct;
     
     @JsonManagedReference(value = "orderHistory")
     @OneToMany(mappedBy = "customer")
     private Set<Order> orderHistory;
+    
+    @Column(name = "cart")
+    private List<Product> cart;
     
 }
