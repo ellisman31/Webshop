@@ -35,13 +35,21 @@ public class ProductService implements ProductServiceInterface{
     }
 
     @Override
-    public void updateProduct(Product product) {
+    public void addProduct(Product product) {
         productJPA.save(product);
     }
 
     @Override
-    public void addProduct(Product product) {
-        productJPA.save(product);
+    public void updateProductById(Long productId, Product product) {
+        Optional<Product> currentProduct = productJPA.findById(productId);
+        
+        currentProduct.get().setAvailable(product.isAvailable()); // Is available
+        currentProduct.get().setInStock(product.isInStock()); // Is in stock
+        currentProduct.get().setProductName(product.getProductName()); // Product name
+        currentProduct.get().setProductQuantity(product.getProductQuantity()); // Product quantity
+        currentProduct.get().setPurchaser(product.getPurchaser()); // Purchasers of the product
+        
+        productJPA.save(currentProduct.get());
     }
 
         

@@ -1,9 +1,8 @@
 package com.webshop.app.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,12 +12,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
+@NoArgsConstructor
 @JsonIgnoreProperties(value= {"id"})
 @Table(name="product", schema="public")
 public class Product {
@@ -41,6 +42,6 @@ public class Product {
     
     @ManyToMany(mappedBy = "purchaseProduct")
     @JsonManagedReference(value = "purchaseProduct")
-    private Set<Customer> purchaser;
+    private List<Customer> purchaser;
     
 }
