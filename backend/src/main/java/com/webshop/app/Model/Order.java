@@ -1,6 +1,8 @@
 package com.webshop.app.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.webshop.app.Status.OrderProcess;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,21 +24,19 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(value= {"id"})
-@Table(name="order", schema="public")
+@Table(name="customer_order", schema="public")
 public class Order {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "customer")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "customer_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id", nullable=false)
+    @JsonManagedReference(value = "orderCustomer")
     private Customer customer;
     
     @Column(name = "orderProcessStatus")
     private OrderProcess orderProcessStatus;
-    
-    
     
 }

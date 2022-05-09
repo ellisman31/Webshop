@@ -1,6 +1,7 @@
 package com.webshop.app.Service;
 
 import com.webshop.app.JPARepository.CustomerJPARepository;
+import com.webshop.app.JPARepository.ProductJPARepository;
 import com.webshop.app.Model.Customer;
 import com.webshop.app.Model.Product;
 import com.webshop.app.ServiceInterface.CustomerServiceInterface;
@@ -13,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class CustomerService implements CustomerServiceInterface{
     
     private final CustomerJPARepository customerJPA;
+    private final ProductJPARepository productJPA;
 
     @Autowired
-    public CustomerService(CustomerJPARepository customerJPA) {
+    public CustomerService(CustomerJPARepository customerJPA, ProductJPARepository productJPA) {
         this.customerJPA = customerJPA;
+        this.productJPA = productJPA;
     }
 
     @Override
@@ -40,9 +43,10 @@ public class CustomerService implements CustomerServiceInterface{
     }
 
     @Override
-    public void addProductToCart(Long customerId, Product product) {
+    public void addProductToCart(Long customerId, Long productId) {
         Optional<Customer> currentCustomer = customerJPA.findById(customerId);
-        currentCustomer.get().getCart().add(product);
+        Optional<Product> currentProduct = productJPA.findById(productId);
+        currentCustomer.get().getCart().add(currentProduct.get());
         
         customerJPA.save(currentCustomer.get());
     }

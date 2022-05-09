@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,7 +34,7 @@ public class CustomerController {
     }
     
     @RequestMapping(value = "/addCustomer", method = RequestMethod.POST)
-    public void addCustomer(Customer customer) {
+    public void addCustomer(@RequestBody Customer customer) {
         customerService.addCustomer(customer);
     }
     
@@ -43,13 +44,13 @@ public class CustomerController {
     }
     
     @RequestMapping(value = "/updateCustomer/{customerId}", method = RequestMethod.PUT)
-    public void updateCustomer(@PathVariable Long customerId, Customer customer) {
+    public void updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
         customerService.updateCustomerById(customerId, customer);
     }
     
-    @RequestMapping(value = "/addProductToCart/{customerId}", method = RequestMethod.PUT)
-    public void addProductToCart(@PathVariable Long customerId, Product product) {
-        customerService.addProductToCart(customerId, product);
+    @RequestMapping(value = "/addProductToCart/{customerId}/{productId}", method = RequestMethod.PUT)
+    public void addProductToCart(@PathVariable("customerId") Long customerId, @PathVariable("productId") Long productId) {
+        customerService.addProductToCart(customerId, productId);
     }
     
     @RequestMapping(value = "/getCustomerCart/{customerId}", method = RequestMethod.GET)

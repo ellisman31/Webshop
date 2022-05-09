@@ -17,7 +17,7 @@ public interface CustomerServiceInterface {
     
     void addCustomer(Customer customer);
     
-    void addProductToCart(Long customerId, Product product);
+    void addProductToCart(Long customerId, Long productId);
     
     List<Product> getCustomerCart(Long customerId);
     
