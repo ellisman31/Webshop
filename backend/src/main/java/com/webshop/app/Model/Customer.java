@@ -2,11 +2,11 @@ package com.webshop.app.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -56,11 +56,11 @@ public class Customer {
     @JsonBackReference(value="purchaseProduct")
     private List<Product> purchaseProduct;
     
-    @JsonManagedReference(value = "orderHistory")
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch=FetchType.LAZY)
+    @JsonBackReference(value = "orderCustomer")
     private Set<Order> orderHistory;
     
-    @Column(name = "cart")
+    @OneToMany
     private List<Product> cart;
     
 }
