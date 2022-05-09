@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,7 +43,7 @@ public class OrderController {
     }
     
     @RequestMapping(value = "/updateOrder/{orderId}", method = RequestMethod.PUT)
-    public void updateOrder(@PathVariable Long orderId, Order order) {
+    public void updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
         orderService.updateOrderById(orderId, order);
     }
     

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,7 +33,7 @@ public class ProductController {
     }
     
     @RequestMapping(value = "/addProduct", method = RequestMethod.POST)
-    public void addProduct(Product product) {
+    public void addProduct(@RequestBody Product product) {
         productService.addProduct(product);
     }
     
@@ -42,7 +43,7 @@ public class ProductController {
     }
     
     @RequestMapping(value = "/updateProduct/{productId}", method = RequestMethod.PUT)
-    public void updateProduct(@PathVariable Long productId, Product product) {
+    public void updateProduct(@PathVariable Long productId, @RequestBody Product product) {
         productService.updateProductById(productId, product);
     }
     
