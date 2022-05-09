@@ -5,6 +5,7 @@ import com.webshop.app.JPARepository.OrderJPARepository;
 import com.webshop.app.JPARepository.ProductJPARepository;
 import com.webshop.app.Model.Customer;
 import com.webshop.app.Model.Order;
+import com.webshop.app.Model.Product;
 import com.webshop.app.ServiceInterface.OrderServiceInterface;
 import com.webshop.app.Status.OrderProcess;
 import java.util.List;
@@ -18,14 +19,12 @@ public class OrderService implements OrderServiceInterface{
     private final OrderJPARepository orderJPA;
     private final CustomerJPARepository customerJPA;
     private final ProductJPARepository productJPA;
-    private final OrderProcess orderProcess;
     
     @Autowired
     public OrderService(OrderJPARepository orderJPA, CustomerJPARepository customerJPA, 
-            OrderProcess orderProcess, ProductJPARepository productJPA) {
+            ProductJPARepository productJPA) {
         this.orderJPA = orderJPA;
         this.customerJPA = customerJPA;
-        this.orderProcess = orderProcess;
         this.productJPA = productJPA;
     }
     
@@ -69,7 +68,7 @@ public class OrderService implements OrderServiceInterface{
         
         Order currentOrder = new Order();
         currentOrder.setCustomer(currentCustomer.get()); // Current customer
-        currentOrder.setOrderProcessStatus(orderProcess.INPROGRESS); // Order process status
+        currentOrder.setOrderProcessStatus(OrderProcess.INPROGRESS); // Order process status
         
         orderJPA.save(currentOrder);
     }
@@ -80,7 +79,9 @@ public class OrderService implements OrderServiceInterface{
     
     private void saveProductPurchaser(Customer customer) {
         customer.getCart().stream().forEach((item -> {
-            productJPA.findById(item.getId()).get().getPurchaser().add(customer);
+            Product currentProduct = productJPA.findById(item.getId()).get();
+            currentProduct.setProductQuantity(currentProduct.getProductQuantity() - 1);
+            currentProduct.getPurchaser().add(customer);
         }));
     }
 
