@@ -1,6 +1,5 @@
 package com.webshop.app.Model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.webshop.app.Status.OrderProcess;
@@ -33,8 +32,8 @@ public class Order {
     
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "customer_id", nullable=false)
-    @JsonManagedReference(value = "orderCustomer")
-    private Customer customer;
+    @JsonManagedReference(value = "customerForOrder")
+    private Customer currentCustomer;
     
     @Column(name = "orderProcessStatus")
     private OrderProcess orderProcessStatus;
