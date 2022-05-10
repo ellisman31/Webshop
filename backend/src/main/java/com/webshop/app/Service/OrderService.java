@@ -3,6 +3,7 @@ package com.webshop.app.Service;
 import com.webshop.app.JPARepository.CustomerJPARepository;
 import com.webshop.app.JPARepository.OrderJPARepository;
 import com.webshop.app.JPARepository.ProductJPARepository;
+import com.webshop.app.Model.Cart;
 import com.webshop.app.Model.Customer;
 import com.webshop.app.Model.Order;
 import com.webshop.app.Model.Product;
@@ -10,6 +11,7 @@ import com.webshop.app.ServiceInterface.OrderServiceInterface;
 import com.webshop.app.Status.OrderProcess;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -48,26 +50,27 @@ public class OrderService implements OrderServiceInterface{
     public void updateOrderById(Long orderId, Order order) {
         Optional<Order> currentOrder = orderJPA.findById(orderId);
         
-        currentOrder.get().setCustomer(order.getCustomer()); //Order customer
+        currentOrder.get().setCurrentCustomer(order.getCurrentCustomer()); //Order customer
         currentOrder.get().setOrderProcessStatus(order.getOrderProcessStatus()); //Order process
         
         if (order.getOrderProcessStatus().equals(OrderProcess.PICKUPATTHESTORE) || 
                 order.getOrderProcessStatus().equals(OrderProcess.SHIPPING)) {
-            saveCustomerOrderToOrderHistory(order.getCustomer(),order);
+            saveCustomerOrderToOrderHistory(order.getCurrentCustomer(),order);
             
         } else if (order.getOrderProcessStatus().equals(OrderProcess.FINISHED)) {
-            saveProductPurchaser(order.getCustomer());
+            saveProductPurchaser(order.getCurrentCustomer());
         }
         
         orderJPA.save(currentOrder.get());
     }
 
+    //NEEDS TO MODIFY
     @Override
     public void addCustomerOrderById(Long customerId) {
         Optional<Customer> currentCustomer = customerJPA.findById(customerId);
         
         Order currentOrder = new Order();
-        currentOrder.setCustomer(currentCustomer.get()); // Current customer
+        currentOrder.setCurrentCustomer(currentCustomer.get()); // Current customer
         currentOrder.setOrderProcessStatus(OrderProcess.INPROGRESS); // Order process status
         
         orderJPA.save(currentOrder);
@@ -78,9 +81,11 @@ public class OrderService implements OrderServiceInterface{
     }
     
     private void saveProductPurchaser(Customer customer) {
-        customer.getCart().stream().forEach((item -> {
-            Product currentProduct = productJPA.findById(item.getId()).get();
-            currentProduct.setProductQuantity(currentProduct.getProductQuantity() - 1);
+       Set<Cart> customerCart = customer.getCart();
+        
+       customerCart.stream().forEach((product -> {
+            Product currentProduct = productJPA.findById(product.getProduct().getId()).get();
+            currentProduct.setProductQuantity(currentProduct.getProductQuantity() - product.getProductQuantity());
             currentProduct.getPurchaser().add(customer);
         }));
     }
