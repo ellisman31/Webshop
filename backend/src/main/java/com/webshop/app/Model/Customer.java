@@ -2,8 +2,10 @@ package com.webshop.app.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.List;
 import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,7 +27,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIgnoreProperties(value= {"id"})
+@JsonIgnoreProperties(value= {"id", "purchaseProduct"})
 @Table(name="customer", schema="public")
 public class Customer {
     
@@ -53,14 +55,14 @@ public class Customer {
             name = "purchase_product",
             joinColumns = @JoinColumn(name = "customer_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
-    @JsonBackReference(value="purchaseProduct")
     private List<Product> purchaseProduct;
     
-    @OneToMany(mappedBy = "customer", fetch=FetchType.LAZY)
-    @JsonBackReference(value = "orderCustomer")
+    @OneToMany(mappedBy = "currentCustomer", fetch=FetchType.LAZY)
+    @JsonBackReference(value = "customerForOrder")
     private Set<Order> orderHistory;
     
-    @OneToMany
-    private List<Product> cart;
+    @OneToMany(mappedBy = "customerForCart", cascade = CascadeType.ALL)
+    @JsonManagedReference(value = "customerForCart")
+    private Set<Cart> cart;
     
 }
