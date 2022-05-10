@@ -1,9 +1,10 @@
 package com.webshop.app.ServiceInterface;
 
+import com.webshop.app.Model.Cart;
 import com.webshop.app.Model.Customer;
-import com.webshop.app.Model.Product;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface CustomerServiceInterface {
     
@@ -19,6 +20,6 @@ public interface CustomerServiceInterface {
     
     void addProductToCart(Long customerId, Long productId);
     
-    List<Product> getCustomerCart(Long customerId);
+    Set<Cart> getCustomerCart(Long customerId);
     
 }
