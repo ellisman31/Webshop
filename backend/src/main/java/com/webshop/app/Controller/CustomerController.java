@@ -1,10 +1,11 @@
 package com.webshop.app.Controller;
 
+import com.webshop.app.Model.Cart;
 import com.webshop.app.Model.Customer;
-import com.webshop.app.Model.Product;
 import com.webshop.app.Service.CustomerService;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -54,7 +55,7 @@ public class CustomerController {
     }
     
     @RequestMapping(value = "/getCustomerCart/{customerId}", method = RequestMethod.GET)
-    public List<Product> getCustomerCart(@PathVariable Long customerId) {
+    public Set<Cart> getCustomerCart(@PathVariable Long customerId) {
         return customerService.getCustomerCart(customerId);
     }
     
