@@ -67,23 +67,6 @@ public class CustomerService implements CustomerServiceInterface{
         customerJPA.save(currentCustomer.get());
         
     }
-        
-
-    @Override
-    public void updateCustomerById(Long customerId, Customer customer) {
-        Optional<Customer> currentCustomer = customerJPA.findById(customerId);
-        
-        currentCustomer.get().setAddress(customer.getAddress()); //Address
-        currentCustomer.get().setCart(customer.getCart()); // Cart
-        currentCustomer.get().setEmailAddress(customer.getEmailAddress()); //Email address
-        currentCustomer.get().setFirstName(customer.getFirstName()); // First name
-        currentCustomer.get().setLastName(customer.getLastName()); // Last name
-        currentCustomer.get().setOrderHistory(customer.getOrderHistory()); // Order history
-        currentCustomer.get().setPassword(customer.getPassword()); // Password
-        currentCustomer.get().setPurchaseProduct(customer.getPurchaseProduct()); // Purchased product(but this is invisible)
-        
-        customerJPA.save(currentCustomer.get());
-    }
 
     @Override
     public Set<Cart> getCustomerCart(Long customerId) {
@@ -100,5 +83,21 @@ public class CustomerService implements CustomerServiceInterface{
         currentCustomer.getCart().add(newCart);
     }
 
+    
+    //@Override
+    //public void updateCustomerById(Long customerId, Customer customer) {
+        //Optional<Customer> currentCustomer = customerJPA.findById(customerId);
+
+        //currentCustomer.get().setAddress(customer.getAddress()); //Address
+        //currentCustomer.get().setCart(customer.getCart()); // Cart
+        //currentCustomer.get().setEmailAddress(customer.getEmailAddress()); //Email address
+        //currentCustomer.get().setFirstName(customer.getFirstName()); // First name
+        //currentCustomer.get().setLastName(customer.getLastName()); // Last name
+        //currentCustomer.get().setOrderHistory(customer.getOrderHistory()); // Order history
+        //currentCustomer.get().setPassword(customer.getPassword()); // Password
+        //currentCustomer.get().setPurchaseProduct(customer.getPurchaseProduct()); // Purchased product(but this is invisible)
+
+        //customerJPA.save(currentCustomer.get());
+    //}
     
 }

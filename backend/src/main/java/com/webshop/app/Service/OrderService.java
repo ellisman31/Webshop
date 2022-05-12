@@ -45,26 +45,7 @@ public class OrderService implements OrderServiceInterface{
         orderJPA.deleteById(orderId);
     }
 
-
-    @Override
-    public void updateOrderById(Long orderId, Order order) {
-        Optional<Order> currentOrder = orderJPA.findById(orderId);
-        
-        currentOrder.get().setCurrentCustomer(order.getCurrentCustomer()); //Order customer
-        currentOrder.get().setOrderProcessStatus(order.getOrderProcessStatus()); //Order process
-        
-        if (order.getOrderProcessStatus().equals(OrderProcess.PICKUPATTHESTORE) || 
-                order.getOrderProcessStatus().equals(OrderProcess.SHIPPING)) {
-            saveCustomerOrderToOrderHistory(order.getCurrentCustomer(),order);
-            
-        } else if (order.getOrderProcessStatus().equals(OrderProcess.FINISHED)) {
-            saveProductPurchaser(order.getCurrentCustomer());
-        }
-        
-        orderJPA.save(currentOrder.get());
-    }
-
-    //NEEDS TO MODIFY
+    //NEEDS TO MODIFY(CHECK IF THERE IS ANY ORDER AT THE MOMENT)
     @Override
     public void addCustomerOrderById(Long customerId) {
         Optional<Customer> currentCustomer = customerJPA.findById(customerId);
@@ -76,18 +57,38 @@ public class OrderService implements OrderServiceInterface{
         orderJPA.save(currentOrder);
     }
     
-    private void saveCustomerOrderToOrderHistory(Customer customer,Order order) {
-        customer.getOrderHistory().add(order);
-    }
-    
-    private void saveProductPurchaser(Customer customer) {
-       Set<Cart> customerCart = customer.getCart();
+    //@Override
+    //public void updateOrderById(Long orderId, Order order) {
+    //    Optional<Order> currentOrder = orderJPA.findById(orderId);
         
-       customerCart.stream().forEach((product -> {
-            Product currentProduct = productJPA.findById(product.getProduct().getId()).get();
-            currentProduct.setProductQuantity(currentProduct.getProductQuantity() - product.getProductQuantity());
-            currentProduct.getPurchaser().add(customer);
-        }));
-    }
+    //    currentOrder.get().setCurrentCustomer(order.getCurrentCustomer()); //Order customer
+    //    currentOrder.get().setOrderProcessStatus(order.getOrderProcessStatus()); //Order process
+        
+    //    if (order.getOrderProcessStatus().equals(OrderProcess.PICKUPATTHESTORE) || 
+    //            order.getOrderProcessStatus().equals(OrderProcess.SHIPPING)) {
+    //        saveCustomerOrderToOrderHistory(order.getCurrentCustomer(),order);
+            
+    //    } else if (order.getOrderProcessStatus().equals(OrderProcess.FINISHED)) {
+    //        saveProductPurchaser(order.getCurrentCustomer());
+    //    }
+        
+    //    orderJPA.save(currentOrder.get());
+    //}
+    
+    //FOR UPDATE(TODO: EMPTY THE ORDER AFTER SAVING):
+    
+    //private void saveCustomerOrderToOrderHistory(Customer customer,Order order) {
+        //customer.getOrderHistory().add(order);
+    //}
+    
+    //private void saveProductPurchaser(Customer customer) {
+       //Set<Cart> customerCart = customer.getCart();
+        
+       //customerCart.stream().forEach((product -> {
+            //Product currentProduct = productJPA.findById(product.getProduct().getId()).get();
+            //currentProduct.setProductQuantity(currentProduct.getProductQuantity() - product.getProductQuantity());
+            //currentProduct.getPurchaser().add(customer);
+        //}));
+    //}
 
 }

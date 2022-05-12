@@ -44,10 +44,10 @@ public class CustomerController {
         customerService.deleteCustomerById(customerId);
     }
     
-    @RequestMapping(value = "/updateCustomer/{customerId}", method = RequestMethod.PUT)
-    public void updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
-        customerService.updateCustomerById(customerId, customer);
-    }
+    //@RequestMapping(value = "/updateCustomer/{customerId}", method = RequestMethod.PUT)
+    //public void updateCustomer(@PathVariable Long customerId, @RequestBody Customer customer) {
+    //    customerService.updateCustomerById(customerId, customer);
+    //}
     
     @RequestMapping(value = "/addProductToCart/{customerId}/{productId}", method = RequestMethod.PUT)
     public void addProductToCart(@PathVariable("customerId") Long customerId, @PathVariable("productId") Long productId) {

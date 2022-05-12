@@ -42,10 +42,10 @@ public class OrderController {
         orderService.addCustomerOrderById(customerId);
     }
     
-    @RequestMapping(value = "/updateOrder/{orderId}", method = RequestMethod.PUT)
-    public void updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
-        orderService.updateOrderById(orderId, order);
-    }
+    //@RequestMapping(value = "/updateOrder/{orderId}", method = RequestMethod.PUT)
+    //public void updateOrder(@PathVariable Long orderId, @RequestBody Order order) {
+    //    orderService.updateOrderById(orderId, order);
+    //}
     
     
 }
